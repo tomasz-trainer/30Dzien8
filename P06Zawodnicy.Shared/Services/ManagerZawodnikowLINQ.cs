@@ -112,5 +112,18 @@ namespace P06Zawodnicy.Shared.Services
         {
             return mapujZawodnikow(new ModelBazyDataContext().ZawodnikDb.ToArray());
         }
+
+        public GrupaKraju[] PodajSredniWzrostDlaKazdegoKraju()
+        {
+             return 
+                new ModelBazyDataContext()
+                .ZawodnikDb
+                .GroupBy(x=>x.Kraj)
+                .Select(x=>new GrupaKraju
+                {
+                    Kraj = x.Key,
+                    SredniWzrost = x.Average(y=>y.Wzrost)
+                }).ToArray();
+        }
     }
 }

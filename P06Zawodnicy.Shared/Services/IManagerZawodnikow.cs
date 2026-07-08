@@ -17,5 +17,7 @@ namespace P06Zawodnicy.Shared.Services
         void Usun(Zawodnik zawodnik);
         void Edytuj(Zawodnik edytowany);
         Zawodnik[] PodajZawodnikow(string kraj);
+
+        GrupaKraju[] PodajSredniWzrostDlaKazdegoKraju();
     }
 }

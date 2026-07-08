@@ -3,7 +3,9 @@ using P06Zawodnicy.Shared.Services;
 using PdfSharp.Pdf.IO;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace P07ZawodnicyTrenerzy
 {
@@ -15,7 +17,7 @@ namespace P07ZawodnicyTrenerzy
 
             InitializeComponent();
 
-            mz = new ManagerZawodnikow();
+            mz = ObjectContainer.ManagerZawodnikow;
             
             lbDane.DataSource = 
                 mz.WczytajZawodnikow();
@@ -77,6 +79,7 @@ namespace P07ZawodnicyTrenerzy
 
             lbDane.DataSource = mz.PodajZawodnikow(zaznaczonyKraj);
             lbDane.DisplayMember = "ImieNazwisko";
+            przygotujWykres();
         }
 
         private void btnNowy_Click(object sender, EventArgs e)
@@ -95,6 +98,34 @@ namespace P07ZawodnicyTrenerzy
             lbDane.DataSource = null;
             lbDane.DataSource = mz.PodajZawodnikow(kraj);
             lbDane.DisplayMember = "ImieNazwisko";
+
+            przygotujWykres();
+
+             
+        }
+
+        private void przygotujWykres()
+        {
+            chWykres.Series.Clear();
+            Series seriaDanych = new Series("Wzrosty");
+            seriaDanych.ChartType = SeriesChartType.Column;
+
+            GrupaKraju[] gk = mz.PodajSredniWzrostDlaKazdegoKraju();
+
+            //string[] osX = new string[gk.Length];
+            //double[] osY = new double[gk.Length];
+
+            //for (int i = 0; i < gk.Length; i++)
+            //{
+            //    osX[i] = gk[i].Kraj;
+            //    osY[i] = gk[i].SredniWzrost;
+            //}
+            //inny sposb 
+            string[] osX = gk.Select(x => x.Kraj).ToArray();
+            double[] osY = gk.Select(x => x.SredniWzrost).ToArray();
+
+            seriaDanych.Points.DataBindXY(osX, osY);
+            chWykres.Series.Add(seriaDanych);
         }
 
         private void btnGenerujPDF_Click(object sender, EventArgs e)

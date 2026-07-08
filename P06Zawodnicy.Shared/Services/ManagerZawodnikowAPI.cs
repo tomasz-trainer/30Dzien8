@@ -34,6 +34,11 @@ namespace P06Zawodnicy.Shared.Services
             throw new NotImplementedException();
         }
 
+        public GrupaKraju[] PodajSredniWzrostDlaKazdegoKraju()
+        {
+            throw new NotImplementedException();
+        }
+
         public Zawodnik[] PodajZawodnikow(string kraj)
         {
             throw new NotImplementedException();

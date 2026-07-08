@@ -161,7 +161,10 @@ namespace P06Zawodnicy.Shared.Services
             pzb.WyslijPolecenieSQL(sql);
         }
 
-      
+        public GrupaKraju[] PodajSredniWzrostDlaKazdegoKraju()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

@@ -47,6 +47,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelBazy.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Domain\GrupaKraju.cs" />
     <Compile Include="Domain\Osoba.cs" />
     <Compile Include="Domain\Terner.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

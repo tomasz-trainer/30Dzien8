@@ -14,7 +14,7 @@ namespace P07ZawodnicyTrenerzy
         static public Wyszukiwarka Wyszukiwarka { get; set; }
         public ObjectContainer()
         {
-            ManagerZawodnikow = new ManagerZawodnikow();
+            ManagerZawodnikow = new ManagerZawodnikowLINQ();
             ManagerTrenerow = new ManagerTrenerow();
             Wyszukiwarka = new Wyszukiwarka(ManagerZawodnikow, ManagerTrenerow);
         }

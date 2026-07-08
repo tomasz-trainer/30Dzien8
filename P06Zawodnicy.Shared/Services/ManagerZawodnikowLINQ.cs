@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace P06Zawodnicy.Shared.Services
 {
-    internal class ManagerZawodnikowLINQ : IManagerZawodnikow
+    public class ManagerZawodnikowLINQ : IManagerZawodnikow
     {
           private void mapujNaZawodnikaDb(Zawodnik z, ZawodnikDb zdb)
           {
@@ -21,6 +21,27 @@ namespace P06Zawodnicy.Shared.Services
             zdb.Waga = z.Waga;
             zdb.Id_trenera = z.Id_trenera;
           }
+
+        public Zawodnik[] mapujZawodnikow(params ZawodnikDb[] dane)
+        {
+            Zawodnik[] tab = new Zawodnik[dane.Length];
+            for (int i = 0; i < dane.Length; i++)
+            {
+                tab[i] = new Zawodnik()
+                {
+                    Id_zawodnika = dane[i].Id_zawodnika,
+                    Id_trenera = dane[i].Id_trenera,
+                    Imie = dane[i].Imie,
+                    Nazwisko = dane[i].Nazwisko,
+                    Kraj = dane[i].Kraj,
+                    DataUrodzenia = dane[i].Data_ur,
+                    Wzrost = dane[i].Wzrost,
+                    Waga = dane[i].Waga,
+                };
+            }
+            return tab;
+        }
+
         public void Dodaj(Zawodnik z) // zawodnik domain uzyawny na UI
         {
             var zdb = new ZawodnikDb(); // tworzymy nowego zawodnika bazodanowego 
@@ -58,27 +79,38 @@ namespace P06Zawodnicy.Shared.Services
                 .Select(x => DateTime.Now.Year - x.Data_ur.Year)
                 .Average();
 
-            return sredniWiek;
+            return Convert.ToInt32(sredniWiek);
         }
 
         public double PodajSredniWzrost(string kraj)
         {
-            throw new NotImplementedException();
+            return new ModelBazyDataContext()
+                .ZawodnikDb
+                .Where(x => x.Kraj == kraj)
+                .Average(x => x.Wzrost);
         }
 
         public Zawodnik[] PodajZawodnikow(string kraj)
         {
-            throw new NotImplementedException();
+            var zawodnicyDb = new ModelBazyDataContext()
+             .ZawodnikDb
+             .Where(x => x.Kraj == kraj)
+             .ToArray();
+
+             return mapujZawodnikow(zawodnicyDb);      
         }
 
         public void Usun(Zawodnik zawodnik)
         {
-            throw new NotImplementedException();
+            ModelBazyDataContext db = new ModelBazyDataContext();
+            var usuwany = db.ZawodnikDb.FirstOrDefault(x => x.Id_zawodnika == zawodnik.Id_zawodnika);
+            db.ZawodnikDb.DeleteOnSubmit(usuwany);
+            db.SubmitChanges();
         }
 
         public Zawodnik[] WczytajZawodnikow()
         {
-            throw new NotImplementedException();
+            return mapujZawodnikow(new ModelBazyDataContext().ZawodnikDb.ToArray());
         }
     }
 }

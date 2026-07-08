@@ -81,8 +81,47 @@ namespace P01ORMWstep
                         orderby x.Imie.Length
                         select x).ToArray();
 
+            //select * from zawodnicy 
+            Zawodnik[] wyn9 = db.Zawodnik.ToArray();
+
+            string[] wyn10 = db.Zawodnik.Select(x => x.Imie).ToArray();
+
+            //select imie + ' ' + nazwisko from zawodnicy 
+            string[] wyn11 = db.Zawodnik.Select(x => x.Imie + " " + x.Nazwisko).ToArray();
+
+            //select imie, nazwisko from zawodnicy 
 
 
+            ZawodnikMini[] wynik12 = db.Zawodnik.Select(x=> new ZawodnikMini()
+            {
+                MojeImie = x.Imie,
+                MojeNazwisko = x.Nazwisko.ToLower(),
+            }).ToArray();
+
+            // jesli nie chce nam sie tworzyc nowych obiektów 
+            var wyn13 = db.Zawodnik.Select(x => new
+            {
+                MojeImie = x.Imie,
+                MojaWaga = x.Waga,
+                x.Kraj
+            });
+
+            foreach (var k in wyn13)
+            {
+                Console.WriteLine(k.MojeImie + " " + k.MojaWaga + " " + k.Kraj);
+            }
+
+            // nie musimy podawac nazw kolun 
+            var wyn14 = db.Zawodnik.Select(x => new { x.Imie, x.Waga, x.Kraj });
+
+            //wypisanie danych 
+            foreach (var z in wyn14)
+                Console.WriteLine(z.Imie + " " + z.Waga + " " + z.Kraj);
+
+            // wypisz listę zawodnikow (imie nazwisko i BMI) 
+            // i posortuj wyniki po BMI malejąco 
+            //bmi = waga[kg]/wzrost[m]^2
+            // wynik bmi podaj do dwóch miejsc po przecinku 
         }
 
         static bool CzyPolak(Zawodnik x)

@@ -1,4 +1,5 @@
-﻿using P06Zawodnicy.Shared.Data;
+﻿using AutoMapper;
+using P06Zawodnicy.Shared.Data;
 using P06Zawodnicy.Shared.Domain;
 using System;
 using System.Collections.Generic;
@@ -112,6 +113,15 @@ namespace P06Zawodnicy.Shared.Services
         {
             return mapujZawodnikow(new ModelBazyDataContext().ZawodnikDb.ToArray());
         }
+        //public Zawodnik[] WczytajZawodnikow()
+        //{
+        //    var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+        //    IMapper mapper = config.CreateMapper();
+
+        //    var zawodnicyDb = new ModelBazyDataContext().ZawodnikDb.ToArray();
+        //    return mapper.Map<Zawodnik[]>(zawodnicyDb);
+        //}
+
 
         public GrupaKraju[] PodajSredniWzrostDlaKazdegoKraju()
         {

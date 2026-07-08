@@ -67,8 +67,8 @@ namespace P01ORMWstep
                 .OrderBy(x => x.Imie.Length)
                 .ToArray();
 
-            var wyn7b = db.Zawodnik
-               .Where(x => x.Nazwisko.Last()=='a' && x.Wzrost > x.Waga * 2 && x.Data_ur.Month > 6)
+            var wyn7b = db.Zawodnik.ToArray()
+               .Where(x => x.Nazwisko.Last() == 'a' && x.Wzrost > x.Waga * 2 && x.Data_ur.Month > 6)
                .OrderBy(x => x.Imie.Length)
                .ToArray();
 
@@ -122,6 +122,132 @@ namespace P01ORMWstep
             // i posortuj wyniki po BMI malejąco 
             //bmi = waga[kg]/wzrost[m]^2
             // wynik bmi podaj do dwóch miejsc po przecinku 
+
+            var wyn15 = db.Zawodnik.ToArray()
+                .Select(x => new
+                {
+                    x.Imie,
+                    x.Nazwisko,
+                    BMI = Math.Round((double)x.Waga / Math.Pow((double)x.Wzrost / 100, 2), 2)
+                }).OrderByDescending(x => x.BMI).ToArray();
+
+            var wyn15b =
+                (from x in db.Zawodnik.ToArray()
+                 select new
+                 {
+                     Imie = x.Imie,
+                     Nazwisko = x.Nazwisko,
+                     BMI = Math.Round((double)x.Waga / Math.Pow((double)x.Wzrost / 100, 2), 2)
+                 }
+                 ).OrderBy(x => x.BMI).ToList();
+
+
+             IQueryable<Zawodnik> wynik16 =db.Zawodnik.Where(x => x.Kraj == "pol"); // to jeszcze nie zostało wysłane do bazy 
+             var wynik17 = wynik16.Where(x => x.Wzrost > 170).ToArray(); // dopiero teraz zapytanie poszło do bazy 
+
+            // poznaliśmy: select, from, where, order by , group by 
+
+            // grupowanie 
+
+            //select kraj, avg(convert(decimal, wzrost))
+            //from Zawodnicy
+            //group by kraj
+
+
+            var wyn18 = db.Zawodnik
+               .GroupBy(x => x.Kraj)
+                .Select(x => new
+                {
+                    Kraj = x.Key,
+                    SredniWzrost = x.Average(y => y.Wzrost)
+                }).ToArray();
+
+
+            var wyn19 = db.Zawodnik.GroupBy(x => x.Kraj).ToArray(); // to zwraca nam grupy 
+
+
+            // wypisz wszystkie wartości długości nazwisk, wraz z informacją ile osób posiada
+            // nazwisko o podanej długości 
+            //np:
+            // nazwisko o długości 5 ma 4 osoby
+            // nazwisko o długości 7 ma 6 osoby
+            // nazwisko o długości 6 ma 6 osoby
+            //.... itd..
+            // wyniki posortuj po liczbie osób w grupie rosnąco
+            // , a jeżeli liczba osób jest taka sama to po długości nazwiska malejąco
+
+            // * uwzgędnij tylko zawodników, których nazwisko nie zaczyna się na "a"
+            // i wypisz tylko te grupy, które zawierają co najmniej 2 osoby
+
+
+            var wyn20 = db.Zawodnik
+               .Where(x => !x.Nazwisko.StartsWith("a"))
+               .GroupBy(x => x.Nazwisko.Length)
+               .Select(x => new
+               {
+                   DlugoscNazwiska = x.Key,
+                   LiczbaOsob = x.Count(),
+                   Srednia = x.Average(y => y.Wzrost),
+                   Max = x.Max(y => y.Wzrost)
+               })
+                 .Where(x => x.LiczbaOsob > 1)
+                 .OrderBy(x => x.LiczbaOsob)
+                 .ThenByDescending(x => x.DlugoscNazwiska)
+                 .ToArray();
+
+            foreach (var g in wyn20)
+                Console.WriteLine($"Nazwisko o dlugości {g.DlugoscNazwiska} ma {g.LiczbaOsob} osoby");
+
+            // Dla kazdego kraju, wypisz po przecinku liste nazwisk zawodników z danego kraju 
+
+            var wyn21 = db.Zawodnik
+                .GroupBy(x => x.Kraj)
+                .Select(x => new
+                {
+                    Kraj = x.Key,
+                    Nazwiska = x.Select(y => y.Nazwisko).OrderBy(y => y)
+                }).ToArray();
+
+            foreach (var g in wyn21)
+            {
+                Console.WriteLine("Kraj: " + g.Kraj);
+                Console.WriteLine(string.Join(" ,", g.Nazwiska));
+            }
+
+            // do tej pory zawsze wybieralismy zbiór elementów 
+
+            // chcemy znaleź jeden wybrany rekord 
+
+
+            Zawodnik wyn22 = db.Zawodnik.Where(x => x.Nazwisko == "małysz").ToArray()[0];
+            Zawodnik wyn23 = db.Zawodnik.Where(x => x.Nazwisko == "małysz").FirstOrDefault();
+
+            Zawodnik wyn24 = db.Zawodnik.FirstOrDefault(x => x.Nazwisko == "małysz");
+
+            Zawodnik wyn25 = db.Zawodnik.FirstOrDefault(x => x.Id_zawodnika == 7);
+
+            // znajdz zawodnikow których waga jest o dokładnie 1 kilogram mniejsza od wagi najwyższego zawodnika
+
+            var najwyższy = db.Zawodnik.OrderByDescending(x => x.Wzrost).FirstOrDefault();
+
+            var wyn26 = db.Zawodnik.Where(x => x.Waga == najwyższy.Waga - 1).ToArray();
+
+            // inne rozwiazanie 
+
+            var wyn27 = db.Zawodnik.Where(x => x.Waga == db.Zawodnik.OrderByDescending(y => y.Wzrost).FirstOrDefault().Waga - 1).ToArray();
+
+            // jeszcze inne 
+
+            var najwyzszyWzrost = zawodnicy.Select(x => x.Wzrost).Max();
+            var wyn28 = zawodnicy.Where(x => x.Waga == db.Zawodnik.FirstOrDefault(y => y.Wzrost == najwyzszyWzrost).Waga - 1).ToArray();
+
+            // jeszce inne 
+
+            var wyn29 = zawodnicy.Where(x => x.Waga == db.Zawodnik.FirstOrDefault(y => y.Wzrost == zawodnicy.Select(z => z.Wzrost).Max()).Waga - 1).ToArray();
+
+
+            // dla każdego kraju wypisz imie i nazwisko najwyzszego zawodnika z tego kraju 
+
         }
 
         static bool CzyPolak(Zawodnik x)

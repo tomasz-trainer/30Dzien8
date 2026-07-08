@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -52,6 +53,32 @@ namespace P01ORMWstep
             // znajdz zawodników, których nazwisko konczy się na litere a 
             // oraz wzrost jest ponad 2 razy wiekszy niz waga
             // urodzonych w II polowie roku, i posortouj po dlugosci imienia 
+
+
+            //  select* from zawodnicy
+            //where right(nazwisko, 1) = 'a'
+            //  and wzrost > waga * 2 and month(data_ur) > 6
+            //  order by len(imie)
+
+            //składnia używająca operatora lambda (składnia skrócona) zalecana 
+            var wyn7 = db.Zawodnik
+                .Where(x => x.Nazwisko.EndsWith("a") && x.Wzrost > x.Waga * 2 && x.Data_ur.Month > 6)
+                .OrderBy(x => x.Imie.Length)
+                .ToArray();
+
+            var wyn7b = db.Zawodnik
+               .Where(x => x.Nazwisko.Last()=='a' && x.Wzrost > x.Waga * 2 && x.Data_ur.Month > 6)
+               .OrderBy(x => x.Imie.Length)
+               .ToArray();
+
+
+            // składnia opodobna do SQL 
+            var wyn8 = (from x in db.Zawodnik
+                        where x.Nazwisko.EndsWith("a")
+                        && x.Wzrost > x.Waga * 2
+                        && x.Data_ur.Month > 6
+                        orderby x.Imie.Length
+                        select x).ToArray();
 
 
 

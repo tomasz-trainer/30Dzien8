@@ -248,6 +248,7 @@ namespace P01ORMWstep
 
             // dla każdego kraju wypisz imie i nazwisko najwyzszego zawodnika z tego kraju 
 
+            // wypisz grupy nazwisk zawodnikow urodzonych w tym samym miesiacu 
         }
 
         static bool CzyPolak(Zawodnik x)

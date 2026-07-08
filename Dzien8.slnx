@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="P01ORMWstep/P01ORMWstep.csproj" />
+  <Project Path="P01ORMWstep/P01ORMWstep.csproj" Id="56c4b8bc-2bce-41d0-a015-26380a88c0be" />
+  <Project Path="P02OperacjeCRUD/P02OperacjeCRUD.csproj" Id="3880f617-88a9-4622-b04e-15399862852e" />
 </Solution>

@@ -1,0 +1,9 @@
+Dodaj formularz z opcja wyszukiwania 
+osób : trenerów lub zawodników. 
+
+Gdy wpiszesz np fragment imienia lub nazwiska i klikniesz przycisk "Szukaj",
+to wyświetli nam się lista osób , które pasują do podanego fragmentu.
+Listę osób wyświetl jako labelki w formie listy uzupełnianej 
+dynamicznie w planu. 
+
+

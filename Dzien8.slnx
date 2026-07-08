@@ -1,4 +1,7 @@
 <Solution>
   <Project Path="P01ORMWstep/P01ORMWstep.csproj" Id="56c4b8bc-2bce-41d0-a015-26380a88c0be" />
   <Project Path="P02OperacjeCRUD/P02OperacjeCRUD.csproj" Id="3880f617-88a9-4622-b04e-15399862852e" />
+  <Project Path="P06Zawodnicy.Shared/P06Zawodnicy.Shared.csproj" Id="58b0070f-e9a2-40ba-b596-814abbfed3b6" />
+  <Project Path="P07ZawodnicyTrenerzy/P07ZawodnicyTrenerzy.csproj" Id="5feed2e5-c144-40e5-a8bf-f9e1be281e5f" />
+  <Project Path="P08PolaczenieZBaza/P08PolaczenieZBaza.csproj" Id="3388558b-a681-4d70-8727-6f39dab88ec9" />
 </Solution>

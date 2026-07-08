@@ -51,6 +51,8 @@ namespace P02OperacjeCRUD
             //krok 2: potem loklanie zmieniamy co chcemy
             //krok 3: wywołujemy submitchanges
 
+             
+
             var doEdycji = db.Zawodnik.FirstOrDefault(x => x.Id_zawodnika == 2);
             doEdycji.Wzrost = doEdycji.Wzrost + 5;
             doEdycji.Nazwisko = "Matejka";

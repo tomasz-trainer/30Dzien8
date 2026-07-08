@@ -2,6 +2,7 @@
 using P06Zawodnicy.Shared.Services;
 using PdfSharp.Pdf.IO;
 using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -126,6 +127,18 @@ namespace P07ZawodnicyTrenerzy
 
             seriaDanych.Points.DataBindXY(osX, osY);
             chWykres.Series.Add(seriaDanych);
+
+            // dodanie linnii sredniego wzrostu 
+            Series seriaSredniegoWzrostu = new Series("Średni wzrost");
+            seriaSredniegoWzrostu.ChartType = SeriesChartType.Line;
+            seriaSredniegoWzrostu.BorderWidth = 3;
+            seriaSredniegoWzrostu.Color = Color.Red;
+
+            var sredniWzrost = gk.Average(x => x.SredniWzrost);
+            foreach (var punkt in chWykres.Series["Wzrosty"].Points)
+                seriaSredniegoWzrostu.Points.AddXY(punkt.AxisLabel, sredniWzrost);
+
+            chWykres.Series.Add(seriaSredniegoWzrostu);
         }
 
         private void btnGenerujPDF_Click(object sender, EventArgs e)

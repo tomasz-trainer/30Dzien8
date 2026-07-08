@@ -140,7 +140,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.chWykres.Series.Add(series1);
-            this.chWykres.Size = new System.Drawing.Size(315, 332);
+            this.chWykres.Size = new System.Drawing.Size(588, 332);
             this.chWykres.TabIndex = 18;
             this.chWykres.Text = "chart1";
             // 
@@ -148,7 +148,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(722, 370);
+            this.ClientSize = new System.Drawing.Size(986, 370);
             this.Controls.Add(this.chWykres);
             this.Controls.Add(this.btnWyszukiwarka);
             this.Controls.Add(this.pnlFlagi);
